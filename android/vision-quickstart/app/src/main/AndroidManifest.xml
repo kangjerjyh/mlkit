@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.google.mlkit.vision.demo"
-    android:installLocation="auto">
 
+    android:installLocation="auto">
+<!--    android:sharedUserId="android.uid.system"-->
     <!-- CameraX libraries require minSdkVersion 21, while this quickstart app
     supports low to 16. Needs to use overrideLibrary to make the merger tool
     ignore this conflict and import the libraries while keeping the app's lower
@@ -42,10 +43,10 @@
             android:name=".EntryChoiceActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN"/>-->
+<!--                <category android:name="android.intent.category.LAUNCHER"/>-->
+<!--            </intent-filter>-->
         </activity>
 
         <activity
@@ -57,6 +58,10 @@
             android:name=".LivePreviewActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity

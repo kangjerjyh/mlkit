@@ -59,7 +59,7 @@ public class CameraSource {
     public static final int DEFAULT_REQUESTED_CAMERA_PREVIEW_WIDTH = 480;
     public static final int DEFAULT_REQUESTED_CAMERA_PREVIEW_HEIGHT = 360;
 
-    private static final String TAG = "MIDemoApp:CameraSource";
+    private static final String TAG = "MIDemoApp";
 
     /**
      * The dummy surface texture must be assigned a chosen name. Since we never use an OpenGL context,
@@ -279,9 +279,12 @@ public class CameraSource {
     private Camera createCamera() throws IOException {
         int requestedCameraId = getIdForRequestedCamera(facing);
         if (requestedCameraId == -1) {
-            throw new IOException("Could not find requested camera.");
+            throw new IOException("Could not find requested camera. requestedCameraId:"+requestedCameraId);
         }
+
         Camera camera = Camera.open(requestedCameraId);
+//        Camera camera = Camera.open(1);
+        Log.i(TAG, "createCamera()");
 
         SizePair sizePair = PreferenceUtils.getCameraPreviewSizePair(activity, requestedCameraId);
         if (sizePair == null) {
@@ -359,6 +362,9 @@ public class CameraSource {
      * @param facing the desired camera (front-facing or rear-facing)
      */
     private static int getIdForRequestedCamera(int facing) {
+        if (facing==CAMERA_FACING_FRONT)
+            return 1;
+
         CameraInfo cameraInfo = new CameraInfo();
         for (int i = 0; i < Camera.getNumberOfCameras(); ++i) {
             Camera.getCameraInfo(i, cameraInfo);
@@ -537,18 +543,23 @@ public class CameraSource {
         CameraInfo cameraInfo = new CameraInfo();
         Camera.getCameraInfo(cameraId, cameraInfo);
 
-        int displayAngle;
+        int displayAngle=0;
         if (cameraInfo.facing == CameraInfo.CAMERA_FACING_FRONT) {
             this.rotationDegrees = (cameraInfo.orientation + degrees) % 360;
             displayAngle = (360 - this.rotationDegrees) % 360; // compensate for it being mirrored
+
+            this.rotationDegrees=0;
+            displayAngle=0;
+            //cameraInfo.facing=CAMERA_FACING_BACK;
+
         } else { // back-facing
             this.rotationDegrees = (cameraInfo.orientation - degrees + 360) % 360;
             displayAngle = this.rotationDegrees;
         }
+        Log.d(TAG, "degrees: "+ degrees);
         Log.d(TAG, "Display rotation is: " + rotation);
         Log.d(TAG, "Camera face is: " + cameraInfo.facing);
         Log.d(TAG, "Camera rotation is: " + cameraInfo.orientation);
-        // This value should be one of the degrees that ImageMetadata accepts: 0, 90, 180 or 270.
         Log.d(TAG, "RotationDegrees is: " + this.rotationDegrees);
 
         camera.setDisplayOrientation(displayAngle);

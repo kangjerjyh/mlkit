@@ -83,7 +83,7 @@ public final class LivePreviewActivity extends AppCompatActivity
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
-    private String selectedModel = OBJECT_DETECTION;
+    private String selectedModel = TEXT_RECOGNITION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +103,11 @@ public final class LivePreviewActivity extends AppCompatActivity
 
         Spinner spinner = findViewById(R.id.spinner);
         List<String> options = new ArrayList<>();
+        options.add(TEXT_RECOGNITION);
         options.add(OBJECT_DETECTION);
         options.add(OBJECT_DETECTION_CUSTOM);
         options.add(FACE_DETECTION);
-        options.add(TEXT_RECOGNITION);
+
         options.add(BARCODE_SCANNING);
         options.add(IMAGE_LABELING);
         options.add(IMAGE_LABELING_CUSTOM);
